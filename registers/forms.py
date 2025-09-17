@@ -33,7 +33,7 @@ class RegisterSearchForm(forms.Form):
         if self.cleaned_data.get("completed") is not None:
             filters["schedule_entries__completed"] = self.cleaned_data["completed"]
         if self.cleaned_data.get("query"):
-            filters["name__icontains"] = self.cleaned_data["query"]
+            pass  # Filter for "name__icontains" is handled in the view, not here.
         return filters
 
 
