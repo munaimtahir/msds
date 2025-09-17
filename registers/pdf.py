@@ -11,7 +11,7 @@ try:  # pragma: no cover - optional dependency
     from weasyprint import HTML  # type: ignore
 
     HAS_WEASYPRINT = True
-except Exception:  # pragma: no cover - gracefully fall back
+except (ImportError, ModuleNotFoundError):  # pragma: no cover - gracefully fall back
     HAS_WEASYPRINT = False
 
 from reportlab.lib.pagesizes import A4
