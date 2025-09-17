@@ -30,7 +30,7 @@ artifacts.
 | `role` | Enum (`citizen`, `staff`, `inspector`, `admin`, `partner`) | Intake/HR | Yes | Role classification. |
 | `first_name` | String | Intake/HR | Yes | Given name. |
 | `last_name` | String | Intake/HR | Yes | Family name. |
-| `email` | String | Intake/HR | No | Contact email; hashed for citizens per privacy rules. |
+| `email` | String | Intake/HR | No | Contact email; for citizens, hashed using SHA-256 with a per-record salt per privacy rules. |
 | `phone` | String | Intake/HR | No | E.164 formatted phone number. |
 | `department` | String | HR | No | Department for staff/inspectors. |
 | `created_at` | Timestamp | System | Yes | Record creation timestamp. |
