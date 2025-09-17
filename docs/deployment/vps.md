@@ -13,7 +13,7 @@ basic Linux administration.
 ```bash
 sudo apt update && sudo apt upgrade -y
 sudo apt install -y fail2ban ufw unattended-upgrades
-sudo adduser msds --disabled-password
+sudo adduser msds --disabled-password --disabled-login --system
 sudo usermod -aG sudo msds
 sudo cp ~/.ssh/authorized_keys /home/msds/.ssh/authorized_keys
 sudo chown -R msds:msds /home/msds/.ssh
