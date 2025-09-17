@@ -69,8 +69,22 @@ this repository alongside application code.
 ### Operational Database Backup
 - Nightly job executed via `cron` on VPS or GitHub Actions workflow:
   ```bash
-  pg_dump --format=custom --file=/backups/msds-$(date +%Y%m%d).dump $DATABASE_URL
-  aws s3 cp /backups/msds-$(date +%Y%m%d).dump s3://msds-backups/ --sse AES256
+  # Parse connection parameters from $DATABASE_URL or set them explicitly
+  PGHOST=${PGHOST:-localhost}
+  PGPORT=${PGPORT:-5432}
+  PGUSER=${PGUSER:-msds_user}
+  PGDATABASE=${PGDATABASE:-msds_db}
+  BACKUP_FILE="/backups/msds-$(date +%Y%m%d).dump"
+  # Run backup with error handling and --no-password (assumes .pgpass or env var for password)
+  if pg_dump --format=custom --file="$BACKUP_FILE" --host="$PGHOST" --port="$PGPORT" --username="$PGUSER" --dbname="$PGDATABASE" --no-password; then
+    # Verify backup integrity
+    sha256sum "$BACKUP_FILE" | tee -a /var/log/msds-backup.log
+    # Upload to S3
+    aws s3 cp "$BACKUP_FILE" s3://msds-backups/ --sse AES256
+  else
+    echo "Backup failed!" >&2
+    exit 1
+  fi
   ```
 - Retain 30 days of nightly backups, 12 monthly archives.
 - Verify checksums using `sha256sum` and store results in the backup log table `backup_runs`.
