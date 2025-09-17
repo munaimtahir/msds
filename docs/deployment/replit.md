@@ -56,7 +56,11 @@ Create `start-replit.sh` in the repository (tracked) with:
 set -euo pipefail
 
 # Start PostgreSQL & Redis inside Replit
-pg_ctl -D $REPL_HOME/postgres -l $REPL_HOME/postgres/logfile start || true
+if pg_ctl -D "$REPL_HOME/postgres" status > /dev/null 2>&1; then
+  echo "PostgreSQL is already running."
+else
+  pg_ctl -D "$REPL_HOME/postgres" -l "$REPL_HOME/postgres/logfile" start
+fi
 redis-server --daemonize yes
 
 # Apply migrations and seed minimal data
