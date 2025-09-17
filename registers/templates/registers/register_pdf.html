@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      body {
+        font-family: "Helvetica", sans-serif;
+        padding: 1.5cm;
+      }
+      h1 {
+        font-size: 20px;
+        margin-bottom: 12px;
+      }
+      h2 {
+        font-size: 16px;
+        margin-top: 18px;
+        margin-bottom: 8px;
+      }
+      p {
+        font-size: 13px;
+        margin: 0 0 6px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>{{ register.name }}</h1>
+    <p>{{ register.description }}</p>
+
+    <h2>Schedule Overview</h2>
+    <p>{{ schedule_summary|safe }}</p>
+
+    <h2>Documents</h2>
+    <p>{{ document_summary|safe }}</p>
+  </body>
+</html>
