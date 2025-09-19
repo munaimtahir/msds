@@ -164,8 +164,10 @@ def search_registers(request: HttpRequest) -> JsonResponse:
     if form.is_valid():
         filters = form.cleaned_filters()
         qs = Register.objects.prefetch_related("schedule_entries").filter(**filters)
-        # Query filtering is already handled in cleaned_filters; do not duplicate here.
-        # If you want to search description as well, move that logic to the form.
+        query = form.cleaned_data.get("query")
+        if query:
+            qs = qs.filter(Q(name__icontains=query) | Q(description__icontains=query))
+        # Filter mappings are handled in cleaned_filters; query filtering occurs above.
         qs = qs.distinct()
         for register in qs[:50]:
             results.append(
