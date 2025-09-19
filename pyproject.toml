@@ -18,3 +18,7 @@ dependencies = [
 
 [tool.django]
 settings-module = "adminos_lab.settings"
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "adminos_lab.settings"
+python_files = ["tests.py", "test_*.py", "*_tests.py"]
